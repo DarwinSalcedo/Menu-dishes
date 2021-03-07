@@ -99,4 +99,5 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

@@ -61,20 +61,14 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    /**
-     */
 
-    /**
-     * When the property is clicked, set the [_navigateToSelectedProperty] [MutableLiveData]
-     * @param Meal The [Meal] that was clicked on.
-     */
+
+
     fun displayPropertyDetails(Meal: Meal) {
         _navigateToSelectedProperty.value = Meal
     }
 
-    /**
-     * After the navigation has taken place, make sure navigateToSelectedProperty is set to null
-     */
+
     fun displayPropertyDetailsComplete() {
         _navigateToSelectedProperty.value = Meal("","","")
     }
