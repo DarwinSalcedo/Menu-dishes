@@ -43,7 +43,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             it?.let {
                 Timber.e("navigate::$it")
                 findNavController().navigate(
-                    HomeFragmentDirections.actionShowDetail(it))
+                    HomeFragmentDirections.actionShowDetail(it)
+                )
+                viewModel.displayPropertyDetailsComplete()
             }
         })
         return binding.root

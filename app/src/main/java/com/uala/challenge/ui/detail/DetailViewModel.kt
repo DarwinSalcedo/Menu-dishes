@@ -20,20 +20,40 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.uala.challenge.network.Meal
+import com.uala.challenge.network.MealsApi
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DetailViewModel(meal: Meal, app: Application) : AndroidViewModel(app) {
     private val _selectedProperty = MutableLiveData<Meal>()
 
-    // The external LiveData for the SelectedProperty
     val selectedProperty: LiveData<Meal>
         get() = _selectedProperty
 
-    // Initialize the _selectedProperty MutableLiveData
     init {
         _selectedProperty.value = meal
+        meal.id?.let { getInstructionsMeals(it) }
     }
 
-    val displayPropertyPrice = _selectedProperty.value?.name
-    val displayPropertyType = _selectedProperty.value?.strCategory
+    private val _displayInstructions = MutableLiveData<String>()
+
+    val displayInstructions: LiveData<String>
+        get() = _displayInstructions
+
+
+    private fun getInstructionsMeals(id: Long) {
+        viewModelScope.launch {
+            try {
+                val result = MealsApi.RETROFIT_SERVICE.getDetailMeals(id)
+                var instrucctions = ""
+                result.name?.forEach { instrucctions += it.instructions + "\n" }
+                _displayInstructions.postValue(instrucctions)
+
+            } catch (e: Exception) {
+                Timber.e(" result " + e)
+            }
+        }
+    }
 }

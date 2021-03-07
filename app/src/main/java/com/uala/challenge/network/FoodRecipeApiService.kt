@@ -26,13 +26,12 @@ private val retrofit = Retrofit.Builder()
  * A public interface that exposes the [getMeals] method
  */
 interface MealsApiService {
-    /**
-     * Returns a Coroutine [List] of [Meal] which can be fetched with await() if in a Coroutine scope.
-     * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
-     * HTTP method
-     */
+
     @GET("search.php")
     suspend fun getMeals(@Query("s") type: String): ListMeal
+
+    @GET("lookup.php")
+    suspend fun getDetailMeals(@Query("i") id: Long): ListMeal
 }
 
 /**

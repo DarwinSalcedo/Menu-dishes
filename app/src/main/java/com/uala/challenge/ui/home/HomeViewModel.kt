@@ -70,7 +70,7 @@ class HomeViewModel : ViewModel() {
 
 
     fun displayPropertyDetailsComplete() {
-        _navigateToSelectedProperty.value = Meal("","","")
+        _navigateToSelectedProperty.value = null
     }
 
 

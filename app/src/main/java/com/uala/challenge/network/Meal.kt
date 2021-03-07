@@ -11,7 +11,9 @@ data class ListMeal(
 
 @Parcelize
 data class Meal(
+    @Json(name = "idMeal") val id: Long = 0,
     @Json(name = "strMeal") val name: String,
     @Json(name = "strMealThumb") val imgSrcUrl: String,
+    @Json(name = "strInstructions") val instructions: String = "",
     val strCategory: String
 ) : Parcelable
