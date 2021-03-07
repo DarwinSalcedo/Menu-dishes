@@ -15,5 +15,6 @@ data class Meal(
     @Json(name = "strMeal") val name: String,
     @Json(name = "strMealThumb") val imgSrcUrl: String,
     @Json(name = "strInstructions") val instructions: String = "",
-    val strCategory: String
+    val strCategory: String,
+    val strYoutube: String = ""
 ) : Parcelable

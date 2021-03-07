@@ -16,15 +16,20 @@
 
 package com.uala.challenge.ui.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.uala.challenge.databinding.FragmentDetailBinding
 
+
 class DetailFragment : Fragment() {
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +42,15 @@ class DetailFragment : Fragment() {
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory
         ).get(DetailViewModel::class.java)
+
+
+        binding.video.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                return false
+            }
+        }
+        binding.video.settings.javaScriptEnabled = true
+        binding.video.loadUrl(property.strYoutube)
         return binding.root
     }
 }
