@@ -32,6 +32,9 @@ interface MealsApiService {
 
     @GET("lookup.php")
     suspend fun getDetailMeals(@Query("i") id: Long): ListMeal
+
+    @GET("random.php")
+    suspend fun getDetailMeals(): ListMeal
 }
 
 /**

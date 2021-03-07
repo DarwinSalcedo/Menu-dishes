@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uala.challenge.network.Meal
 import com.uala.challenge.network.MealsApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -14,54 +15,77 @@ enum class ApiStatus { LOADING, ERROR, DONE }
 class HomeViewModel : ViewModel() {
 
 
-    // The internal MutableLiveData that stores the status of the most recent request
+    private var bannerActive: Boolean = true
+
     private val _status = MutableLiveData<ApiStatus>()
 
-    // The external immutable LiveData for the request status
     val status: LiveData<ApiStatus>
         get() = _status
 
-    // Internally, we use a MutableLiveData, because we will be updating the List of Meal
-    // with new values
     private val _properties = MutableLiveData<List<Meal>>()
 
-    // The external LiveData interface to the property is immutable, so only this class can modify
     val properties: LiveData<List<Meal>>
         get() = _properties
 
-    // Internally, we use a MutableLiveData to handle navigation to the selected property
     private val _navigateToSelectedProperty = MutableLiveData<Meal>()
 
-    // The external immutable LiveData for the navigation property
     val navigateToSelectedProperty: LiveData<Meal>
         get() = _navigateToSelectedProperty
 
 
+    private val _statusBanner = MutableLiveData<ApiStatus>()
+    val statusBanner: LiveData<ApiStatus>
+        get() = _statusBanner
+
+    private val _bannerPlate = MutableLiveData<Meal>()
+    val bannerPlate: LiveData<Meal>
+        get() = _bannerPlate
 
     init {
         getListMeals("a")
+        getRandomPlate()
     }
 
-     fun getListMeals(filter: String) {
+    fun getListMeals(filter: String) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
-              val result = MealsApi.RETROFIT_SERVICE.getMeals(filter)
-                if(result.name!=null) {
+                val result = MealsApi.RETROFIT_SERVICE.getMeals(filter)
+                if (result.name != null) {
                     _properties.value = result.name!!
-                        _status.value = ApiStatus.DONE
-                    Timber.e(" result "+result)
+                    _status.value = ApiStatus.DONE
+                    Timber.e(" result " + result)
                 }
 
             } catch (e: Exception) {
-                Timber.e(" result "+e)
+                Timber.e(" result " + e)
                 _status.value = ApiStatus.ERROR
                 _properties.value = ArrayList()
             }
         }
     }
 
+    fun getRandomPlate() {
+        viewModelScope.launch {
+           while (bannerActive){
+               _statusBanner.value = ApiStatus.LOADING
+               try {
+                   val result = MealsApi.RETROFIT_SERVICE.getDetailMeals()
+                   if (result.name != null) {
+                       _bannerPlate.value = result.name.first()
+                       _statusBanner.value = ApiStatus.DONE
+                       Timber.e(" result " + result)
+                   }
 
+               } catch (e: Exception) {
+                   Timber.e(" result " + e)
+                   _statusBanner.value = ApiStatus.ERROR
+               }
+               delay(30_000)
+           }
+
+        }
+    }
 
 
     fun displayPropertyDetails(Meal: Meal) {
@@ -73,8 +97,8 @@ class HomeViewModel : ViewModel() {
         _navigateToSelectedProperty.value = null
     }
 
-
-    fun updateFilter(filter: String) {
-        getListMeals(filter)
+    override fun onCleared() {
+        super.onCleared()
+        bannerActive = false
     }
 }

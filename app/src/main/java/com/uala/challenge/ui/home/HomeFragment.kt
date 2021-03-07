@@ -48,6 +48,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                 viewModel.displayPropertyDetailsComplete()
             }
         })
+
         return binding.root
     }
 
