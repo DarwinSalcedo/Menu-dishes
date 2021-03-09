@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.uala.challenge.databinding.GridViewItemBinding
-import com.uala.challenge.domain.Meal
+import com.uala.domain.Meal
 
 
 class MealGridAdapter(val onClickListener: OnClickListener) :

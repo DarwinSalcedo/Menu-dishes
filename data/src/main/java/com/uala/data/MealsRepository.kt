@@ -1,6 +1,6 @@
-package com.uala.challenge.data
+package com.uala.data
 
-import com.uala.challenge.domain.DataMeal
+import com.uala.domain.DataMeal
 
 
 class MealsRepository(

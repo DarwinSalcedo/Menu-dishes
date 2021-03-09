@@ -21,14 +21,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.uala.challenge.data.MealsRepository
 import com.uala.challenge.databinding.FragmentDetailBinding
 import com.uala.challenge.framework.NetworktSource
-import com.uala.challenge.usecase.GetDetailsMeal
+import com.uala.challenge.framework.toDataMeal
+import com.uala.data.MealsRepository
+import com.uala.usecase.GetDetailsMeal
 
 
 class DetailFragment : Fragment() {
@@ -45,19 +44,14 @@ class DetailFragment : Fragment() {
         val mealsRepository = MealsRepository(NetworktSource())
 
         val viewModelFactory =
-            DetailViewModelFactory(property, GetDetailsMeal(mealsRepository), application)
+            DetailViewModelFactory(
+                property.toDataMeal(),
+                GetDetailsMeal(mealsRepository), application
+            )
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory
         ).get(DetailViewModel::class.java)
 
-//
-//        binding.video.webViewClient = object : WebViewClient() {
-//            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-//                return false
-//            }
-//        }
-//        binding.video.settings.javaScriptEnabled = true
-//        binding.video.loadUrl(property.strYoutube)
         return binding.root
     }
 }

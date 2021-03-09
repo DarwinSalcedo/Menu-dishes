@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.uala.challenge.R
-import com.uala.challenge.domain.Meal
+import com.uala.domain.Meal
 
 
 @BindingAdapter("listData")

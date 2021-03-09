@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uala.challenge.domain.Meal
-import com.uala.challenge.usecase.GetListMeals
-import com.uala.challenge.usecase.GetRandomMeal
+import com.uala.domain.Meal
+import com.uala.usecase.GetListMeals
+import com.uala.usecase.GetRandomMeal
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -80,7 +80,7 @@ class HomeViewModel(
                     _statusBanner.value = ApiStatus.DONE
                     Timber.e(" result %s", result)
 
-                    if (!result.name.isNullOrEmpty()) _bannerPlate.value = result.name.first()
+                    if (!result.name.isNullOrEmpty()) _bannerPlate.value = result.name?.first()
 
 
                 } catch (e: Exception) {

@@ -19,11 +19,6 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ['room.schemaLocation': '$projectDir/schemas'.toString()]
-            }
-        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,7 +57,7 @@ android {
 
 dependencies {
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$version_kotlin"
 
@@ -100,4 +95,9 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+    implementation project(path: ':usecase')
+
+
 }

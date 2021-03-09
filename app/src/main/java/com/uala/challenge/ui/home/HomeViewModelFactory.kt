@@ -19,9 +19,8 @@ package com.uala.challenge.ui.home
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.uala.challenge.usecase.GetDetailsMeal
-import com.uala.challenge.usecase.GetListMeals
-import com.uala.challenge.usecase.GetRandomMeal
+import com.uala.usecase.GetListMeals
+import com.uala.usecase.GetRandomMeal
 
 class HomeViewModelFactory(
     private val listMeals: GetListMeals,

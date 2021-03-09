@@ -3,7 +3,7 @@ package com.uala.challenge.framework
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.uala.challenge.BuildConfig
-import com.uala.challenge.domain.DataMeal
+import com.uala.domain.DataMeal
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -28,13 +28,13 @@ private val retrofit = Retrofit.Builder()
 interface MealsApiService {
 
     @GET("search.php")
-    suspend fun getMeals(@Query("s") type: String): DataMeal
+    suspend fun getMeals(@Query("s") type: String): NDataMeal
 
     @GET("lookup.php")
-    suspend fun getDetailMeals(@Query("i") id: Long): DataMeal
+    suspend fun getDetailMeals(@Query("i") id: Long): NDataMeal
 
     @GET("random.php")
-    suspend fun getRandomMeal(): DataMeal
+    suspend fun getRandomMeal(): NDataMeal
 }
 
 /**

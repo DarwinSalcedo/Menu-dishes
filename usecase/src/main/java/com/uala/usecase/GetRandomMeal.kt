@@ -1,7 +1,7 @@
-package com.uala.challenge.usecase
+package com.uala.usecase
 
-import com.uala.challenge.data.MealsRepository
-import com.uala.challenge.domain.DataMeal
+import com.uala.data.MealsRepository
+import com.uala.domain.DataMeal
 
 class GetRandomMeal(private val mealsRepository: MealsRepository) {
 

@@ -19,8 +19,8 @@ package com.uala.challenge.ui.detail
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.uala.challenge.domain.Meal
-import com.uala.challenge.usecase.GetDetailsMeal
+import com.uala.domain.Meal
+import com.uala.usecase.GetDetailsMeal
 
 class DetailViewModelFactory(
     private val meal: Meal,

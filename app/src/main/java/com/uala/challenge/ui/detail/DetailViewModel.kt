@@ -21,8 +21,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uala.challenge.domain.Meal
-import com.uala.challenge.usecase.GetDetailsMeal
+import com.uala.domain.Meal
+import com.uala.usecase.GetDetailsMeal
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

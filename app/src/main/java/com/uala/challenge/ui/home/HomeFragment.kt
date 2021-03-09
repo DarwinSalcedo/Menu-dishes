@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.uala.challenge.data.MealsRepository
 import com.uala.challenge.databinding.FragmentHomeBinding
+import com.uala.challenge.framework.NMeal
 import com.uala.challenge.framework.NetworktSource
-import com.uala.challenge.usecase.GetListMeals
-import com.uala.challenge.usecase.GetRandomMeal
+import com.uala.challenge.framework.toNDataMeal
+import com.uala.data.MealsRepository
+import com.uala.usecase.GetListMeals
+import com.uala.usecase.GetRandomMeal
 import timber.log.Timber
 
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -34,7 +36,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.lifecycleOwner = this
 
 
-        val mealsRepository = MealsRepository( NetworktSource())
+        val mealsRepository = MealsRepository(NetworktSource())
         val viewModelFactory = HomeViewModelFactory(
             GetListMeals(mealsRepository),
             GetRandomMeal(mealsRepository), application
@@ -54,8 +56,16 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.navigateToSelectedProperty.observe(this, Observer {
             it?.let {
                 Timber.e("navigate::$it")
+              val data =   NMeal(
+                    it.id,
+                    it.name,
+                    it.image,
+                    it.instructions,
+                    it.category,
+                    it.url
+                )
                 findNavController().navigate(
-                    HomeFragmentDirections.actionShowDetail(it)
+                    HomeFragmentDirections.actionShowDetail(data)
                 )
                 viewModel.displayPropertyDetailsComplete()
             }
