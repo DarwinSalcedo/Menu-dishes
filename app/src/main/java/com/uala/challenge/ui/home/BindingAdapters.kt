@@ -17,7 +17,10 @@
 
 package com.uala.challenge.ui.home
 
+import android.annotation.SuppressLint
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -26,12 +29,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.uala.challenge.R
-import com.uala.challenge.network.Meal
+import com.uala.challenge.domain.Meal
 
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Meal>?) {
-    if(!data.isNullOrEmpty()){
+    if (!data.isNullOrEmpty()) {
         val adapter = recyclerView.adapter as MealGridAdapter
         adapter.submitList(data)
     }
@@ -54,6 +57,20 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
+
+
+@SuppressLint("SetJavaScriptEnabled")
+@BindingAdapter("loadUrl")
+fun bindUrl(video: WebView, url: String) {
+    video.webViewClient = object : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            return false
+        }
+    }
+    video.settings.javaScriptEnabled = true
+    video.loadUrl(url)
+}
+
 @BindingAdapter("nameMeal")
 fun bindText(textView: TextView, text: String?) {
     textView.text = text

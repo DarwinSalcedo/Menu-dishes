@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedProperty"
-            app:argType="com.uala.challenge.network.Meal" />
+            app:argType="com.uala.challenge.domain.Meal" />
     </fragment>
 
 

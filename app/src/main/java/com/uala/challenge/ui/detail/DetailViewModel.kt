@@ -21,21 +21,17 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uala.challenge.network.Meal
-import com.uala.challenge.network.MealsApi
+import com.uala.challenge.domain.Meal
+import com.uala.challenge.usecase.GetDetailsMeal
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class DetailViewModel(meal: Meal, app: Application) : AndroidViewModel(app) {
+class DetailViewModel(meal: Meal, private val getDetailsMeal: GetDetailsMeal, app: Application) :
+    AndroidViewModel(app) {
     private val _selectedProperty = MutableLiveData<Meal>()
 
     val selectedProperty: LiveData<Meal>
         get() = _selectedProperty
-
-    init {
-        _selectedProperty.value = meal
-        meal.id?.let { getInstructionsMeals(it) }
-    }
 
     private val _displayInstructions = MutableLiveData<String>()
 
@@ -43,16 +39,22 @@ class DetailViewModel(meal: Meal, app: Application) : AndroidViewModel(app) {
         get() = _displayInstructions
 
 
+    init {
+        _selectedProperty.value = meal
+        getInstructionsMeals(meal.id)
+    }
+
+
     private fun getInstructionsMeals(id: Long) {
         viewModelScope.launch {
             try {
-                val result = MealsApi.RETROFIT_SERVICE.getDetailMeals(id)
+                val result = getDetailsMeal(id)
                 var instrucctions = ""
                 result.name?.forEach { instrucctions += it.instructions + "\n" }
                 _displayInstructions.postValue(instrucctions)
 
             } catch (e: Exception) {
-                Timber.e(" result " + e)
+                Timber.e(e)
             }
         }
     }

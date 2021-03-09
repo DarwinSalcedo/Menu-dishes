@@ -9,28 +9,40 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.uala.challenge.data.MealsRepository
 import com.uala.challenge.databinding.FragmentHomeBinding
+import com.uala.challenge.framework.NetworktSource
+import com.uala.challenge.usecase.GetListMeals
+import com.uala.challenge.usecase.GetRandomMeal
 import timber.log.Timber
 
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
 
-    private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
-    }
+    private lateinit var viewModel: HomeViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val application = requireNotNull(activity).application
 
         val binding = FragmentHomeBinding.inflate(inflater)
 
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
 
-        // Giving the binding access to the OverviewViewModel
+
+        val mealsRepository = MealsRepository( NetworktSource())
+        val viewModelFactory = HomeViewModelFactory(
+            GetListMeals(mealsRepository),
+            GetRandomMeal(mealsRepository), application
+        )
+
+        viewModel = ViewModelProvider(
+            this, viewModelFactory
+        ).get(HomeViewModel::class.java)
         binding.viewModel = viewModel
 
         binding.svSearch.setOnQueryTextListener(this)

@@ -14,23 +14,24 @@
  *  limitations under the License.
  */
 
-package com.uala.challenge.ui.detail
+package com.uala.challenge.ui.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.uala.challenge.domain.Meal
 import com.uala.challenge.usecase.GetDetailsMeal
+import com.uala.challenge.usecase.GetListMeals
+import com.uala.challenge.usecase.GetRandomMeal
 
-class DetailViewModelFactory(
-    private val meal: Meal,
-    private val getDetailsMeal : GetDetailsMeal,
+class HomeViewModelFactory(
+    private val listMeals: GetListMeals,
+    private val randomMeal: GetRandomMeal,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(meal,getDetailsMeal, application) as T
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            return HomeViewModel(listMeals,randomMeal, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

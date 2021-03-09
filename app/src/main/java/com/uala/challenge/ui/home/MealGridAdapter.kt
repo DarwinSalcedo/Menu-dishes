@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.uala.challenge.databinding.GridViewItemBinding
-import com.uala.challenge.network.Meal
+import com.uala.challenge.domain.Meal
 
 
 class MealGridAdapter(val onClickListener: OnClickListener) :
@@ -33,8 +33,6 @@ class MealGridAdapter(val onClickListener: OnClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(meal: Meal) {
             binding.property = meal
-            // This is important, because it forces the data binding to execute immediately,
-            // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
         }
     }

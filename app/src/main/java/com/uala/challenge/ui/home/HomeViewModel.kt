@@ -1,18 +1,25 @@
 package com.uala.challenge.ui.home
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.uala.challenge.network.Meal
-import com.uala.challenge.network.MealsApi
+import com.uala.challenge.domain.Meal
+import com.uala.challenge.usecase.GetListMeals
+import com.uala.challenge.usecase.GetRandomMeal
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 enum class ApiStatus { LOADING, ERROR, DONE }
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val getMeals: GetListMeals,
+    private val getRandomMeal: GetRandomMeal,
+    application: Application
+) :
+    AndroidViewModel(application) {
 
 
     private var bannerActive: Boolean = true
@@ -42,47 +49,46 @@ class HomeViewModel : ViewModel() {
         get() = _bannerPlate
 
     init {
-        getListMeals("a")
-        getRandomPlate()
+        getListMeals("")
+        executeRandomMeal()
     }
 
     fun getListMeals(filter: String) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
-                val result = MealsApi.RETROFIT_SERVICE.getMeals(filter)
-                if (result.name != null) {
-                    _properties.value = result.name!!
-                    _status.value = ApiStatus.DONE
-                    Timber.e(" result " + result)
-                }
+                val result = getMeals(filter)
+                _status.value = ApiStatus.DONE
+                Timber.e(" result %s", result)
+
+                if (!result.name.isNullOrEmpty()) _properties.value = result.name
 
             } catch (e: Exception) {
-                Timber.e(" result " + e)
+                Timber.e(e)
                 _status.value = ApiStatus.ERROR
                 _properties.value = ArrayList()
             }
         }
     }
 
-    fun getRandomPlate() {
+    private fun executeRandomMeal() {
         viewModelScope.launch {
-           while (bannerActive){
-               _statusBanner.value = ApiStatus.LOADING
-               try {
-                   val result = MealsApi.RETROFIT_SERVICE.getDetailMeals()
-                   if (result.name != null) {
-                       _bannerPlate.value = result.name.first()
-                       _statusBanner.value = ApiStatus.DONE
-                       Timber.e(" result " + result)
-                   }
+            while (bannerActive) {
+                _statusBanner.value = ApiStatus.LOADING
+                try {
+                    val result = getRandomMeal()
+                    _statusBanner.value = ApiStatus.DONE
+                    Timber.e(" result %s", result)
 
-               } catch (e: Exception) {
-                   Timber.e(" result " + e)
-                   _statusBanner.value = ApiStatus.ERROR
-               }
-               delay(30_000)
-           }
+                    if (!result.name.isNullOrEmpty()) _bannerPlate.value = result.name.first()
+
+
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    _statusBanner.value = ApiStatus.ERROR
+                }
+                delay(30_000)
+            }
 
         }
     }
