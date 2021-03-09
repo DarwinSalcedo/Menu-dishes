@@ -49,11 +49,11 @@ class HomeViewModel(
         get() = _bannerPlate
 
     init {
-        getListMeals("")
+        getListMeals()
         executeRandomMeal()
     }
 
-    fun getListMeals(filter: String) {
+    fun getListMeals(filter: String = "") {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {

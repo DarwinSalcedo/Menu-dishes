@@ -15,7 +15,7 @@
  *
  */
 
-package com.uala.challenge.ui.home
+package com.uala.challenge.framework
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.uala.challenge.R
+import com.uala.challenge.ui.home.ApiStatus
+import com.uala.challenge.ui.home.MealGridAdapter
 import com.uala.domain.Meal
 
 

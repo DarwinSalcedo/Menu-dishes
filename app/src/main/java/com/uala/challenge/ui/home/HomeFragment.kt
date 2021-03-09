@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.uala.challenge.databinding.FragmentHomeBinding
 import com.uala.challenge.framework.NMeal
 import com.uala.challenge.framework.NetworktSource
-import com.uala.challenge.framework.toNDataMeal
 import com.uala.data.MealsRepository
 import com.uala.usecase.GetListMeals
 import com.uala.usecase.GetRandomMeal
@@ -56,16 +55,17 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.navigateToSelectedProperty.observe(this, Observer {
             it?.let {
                 Timber.e("navigate::$it")
-              val data =   NMeal(
-                    it.id,
-                    it.name,
-                    it.image,
-                    it.instructions,
-                    it.category,
-                    it.url
-                )
                 findNavController().navigate(
-                    HomeFragmentDirections.actionShowDetail(data)
+                    HomeFragmentDirections.actionShowDetail(
+                        NMeal(
+                            it.id,
+                            it.name,
+                            it.image,
+                            it.instructions,
+                            it.category,
+                            it.url
+                        )
+                    )
                 )
                 viewModel.displayPropertyDetailsComplete()
             }
@@ -82,7 +82,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String?): Boolean {
         Timber.e(newText)
         newText?.let {
-            viewModel.getListMeals(it)
+            if (it.isNotEmpty()) viewModel.getListMeals(it)
         }
         return false
     }
