@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.uala.challenge.ui.home.HomeFragment"
-        android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_showDetail"
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.uala.challenge.ui.detail.DetailFragment"
-        android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedProperty"

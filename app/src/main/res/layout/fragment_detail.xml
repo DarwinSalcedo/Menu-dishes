@@ -14,7 +14,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailFragment">
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:textColor="#de000000"
                 android:textSize="39sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_photo_image"/>
+                app:layout_constraintTop_toBottomOf="@+id/main_photo_image" />
 
             <TextView
                 android:id="@+id/title"
@@ -70,11 +70,11 @@
                 android:layout_width="340sp"
                 android:layout_height="340sp"
                 android:layout_marginTop="10dp"
-                app:loadUrl="@{viewModel.selectedProperty.url}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/instructions" />
+                app:layout_constraintTop_toBottomOf="@+id/instructions"
+                app:loadUrl="@{viewModel.selectedProperty.url}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
