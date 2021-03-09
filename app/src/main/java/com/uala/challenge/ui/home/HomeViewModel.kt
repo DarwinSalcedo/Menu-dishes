@@ -24,6 +24,8 @@ class HomeViewModel(
 
     private var bannerActive: Boolean = true
 
+    private var lastSearch = "-"
+
     private val _status = MutableLiveData<ApiStatus>()
 
     val status: LiveData<ApiStatus>
@@ -54,19 +56,22 @@ class HomeViewModel(
     }
 
     fun getListMeals(filter: String = "") {
-        viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
-            try {
-                val result = getMeals(filter)
-                _status.value = ApiStatus.DONE
-                Timber.e(" result %s", result)
+        if(lastSearch != filter){
+            lastSearch = filter
+            viewModelScope.launch {
+                _status.value = ApiStatus.LOADING
+                try {
+                    val result = getMeals(filter)
+                    _status.value = ApiStatus.DONE
+                    Timber.e(" result %s", result)
 
-                if (!result.name.isNullOrEmpty()) _properties.value = result.name
+                    if (!result.name.isNullOrEmpty()) _properties.value = result.name
 
-            } catch (e: Exception) {
-                Timber.e(e)
-                _status.value = ApiStatus.ERROR
-                _properties.value = ArrayList()
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    _status.value = ApiStatus.ERROR
+                    _properties.value = ArrayList()
+                }
             }
         }
     }

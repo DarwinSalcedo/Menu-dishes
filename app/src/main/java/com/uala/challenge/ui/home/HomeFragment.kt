@@ -82,7 +82,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String?): Boolean {
         Timber.e(newText)
         newText?.let {
-            if (it.isNotEmpty()) viewModel.getListMeals(it)
+            viewModel.getListMeals(it)
         }
         return false
     }
